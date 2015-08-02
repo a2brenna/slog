@@ -8,7 +8,9 @@
 #include <syslog.h>
 
 //The following is mostly stolen from http://stackoverflow.com/a/4457138
-//
+
+namespace slog{
+
 typedef std::basic_streambuf<char, std::char_traits<char>> Char_Stream;
 
 void Initialize_Logging(const std::string& ident, const int& facility);
@@ -65,5 +67,7 @@ class Log : public std::ostringstream {
         }
 
 };
+
+}
 
 #endif

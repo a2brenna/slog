@@ -1,5 +1,7 @@
 #include "slog.h"
 
+namespace slog{
+
 void Initialize_Logging(const std::string& ident, const int& facility){
     openlog(ident.c_str(), LOG_PID, facility);
 }
@@ -64,4 +66,6 @@ int File::overflow(int c) {
         sync();
     }
     return c;
+}
+
 }
