@@ -42,7 +42,7 @@ class Syslog : public Char_Stream {
 class File : public Char_Stream {
     private:
         std::string buffer_;
-        std::pair<std::ofstream, std::mutex> *out_;
+        std::shared_ptr<std::pair<std::ofstream, std::mutex>> out_;
 
     protected:
         int sync();
@@ -50,8 +50,8 @@ class File : public Char_Stream {
         std::string header_;
 
     public:
-        explicit File(std::pair<std::ofstream, std::mutex> *out, const std::string &header);
-        explicit File(std::pair<std::ofstream, std::mutex> *out);
+        explicit File( std::shared_ptr<std::pair<std::ofstream, std::mutex>> out, const std::string &header);
+        explicit File( std::shared_ptr<std::pair<std::ofstream, std::mutex>> out);
 };
 
 class Log : public std::ostringstream {

@@ -31,12 +31,12 @@ int Syslog::overflow(int c) {
     return c;
 }
 
-File::File(std::pair<std::ofstream, std::mutex> *out){
+File::File(std::shared_ptr<std::pair<std::ofstream, std::mutex>> out){
     out_ = out;
     header_ = "";
 }
 
-File::File(std::pair<std::ofstream, std::mutex> *out, const std::string &header){
+File::File(std::shared_ptr<std::pair<std::ofstream, std::mutex>> out, const std::string &header){
     out_ = out;
     header_ = header;
 }
