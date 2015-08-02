@@ -1,0 +1,2 @@
+A simple logging library to aid in the implementation of Log objects that write
+to simple file backends or syslog.
