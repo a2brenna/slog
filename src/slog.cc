@@ -7,26 +7,26 @@ void Initialize_Logging(const std::string& ident, const int& facility){
 }
 
 Syslog::Syslog(const Priority& priority) {
-    priority_ = priority;
-    header_ = "";
+    _priority = priority;
+    _header = "";
 }
 
 Syslog::Syslog(const Priority& priority, const std::string &header) {
-    priority_ = priority;
-    header_ = header;
+    _priority = priority;
+    _header = header;
 }
 
 int Syslog::sync() {
-    if (buffer_.length()) {
-        syslog(priority_, "%s%s", header_.c_str(), buffer_.c_str());
-        buffer_.erase();
+    if (_buffer.length()) {
+        syslog(_priority, "%s%s", _header.c_str(), _buffer.c_str());
+        _buffer.erase();
     }
     return 0;
 }
 
 int Syslog::overflow(int c) {
     if (c != EOF) {
-        buffer_ += static_cast<char>(c);
+        _buffer += static_cast<char>(c);
     } else {
         sync();
     }
@@ -34,33 +34,33 @@ int Syslog::overflow(int c) {
 }
 
 File::File(std::shared_ptr<std::pair<std::ofstream, std::mutex>> out){
-    out_ = out;
-    header_ = "";
+    _out = out;
+    _header = "";
 }
 
 File::File(std::shared_ptr<std::pair<std::ofstream, std::mutex>> out, const std::string &header){
-    out_ = out;
-    header_ = header;
+    _out = out;
+    _header = header;
 }
 
 int File::sync() {
-    if (buffer_.length()) {
+    if (_buffer.length()) {
         {
-            std::unique_lock<std::mutex> l(out_->second);
-            out_->first << "["
+            std::unique_lock<std::mutex> l(_out->second);
+            _out->first << "["
                 << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count()
                 << "] "
-                << buffer_;
-            out_->first.flush();
+                << _buffer;
+            _out->first.flush();
         }
-        buffer_.erase();
+        _buffer.erase();
     }
     return 0;
 }
 
 int File::overflow(int c) {
     if (c != EOF) {
-        buffer_ += static_cast<char>(c);
+        _buffer += static_cast<char>(c);
     } else {
         sync();
     }
