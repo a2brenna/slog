@@ -15,7 +15,7 @@ typedef std::basic_streambuf<char, std::char_traits<char>> Char_Stream;
 
 void Initialize_Logging(const std::string& ident, const int& facility);
 
-enum LogPriority {
+enum Priority {
     kLogEmerg   = LOG_EMERG,   // system is unusable
     kLogAlert   = LOG_ALERT,   // action must be taken immediately
     kLogCrit    = LOG_CRIT,    // critical conditions
@@ -37,8 +37,8 @@ class Syslog : public Char_Stream {
         std::string header_;
 
     public:
-        explicit Syslog(const LogPriority& priority, const std::string &header);
-        explicit Syslog(const LogPriority& priority);
+        explicit Syslog(const Priority& priority, const std::string &header);
+        explicit Syslog(const Priority& priority);
 };
 
 class File : public Char_Stream {

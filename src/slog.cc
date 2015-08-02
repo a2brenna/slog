@@ -6,12 +6,12 @@ void Initialize_Logging(const std::string& ident, const int& facility){
     openlog(ident.c_str(), LOG_PID, facility);
 }
 
-Syslog::Syslog(const LogPriority& priority) {
+Syslog::Syslog(const Priority& priority) {
     priority_ = priority;
     header_ = "";
 }
 
-Syslog::Syslog(const LogPriority& priority, const std::string &header) {
+Syslog::Syslog(const Priority& priority, const std::string &header) {
     priority_ = priority;
     header_ = header;
 }
@@ -45,7 +45,6 @@ File::File(std::shared_ptr<std::pair<std::ofstream, std::mutex>> out, const std:
 
 int File::sync() {
     if (buffer_.length()) {
-        //syslog(priority_, "%s%s", header_.c_str(), buffer_.c_str());
         {
             std::unique_lock<std::mutex> l(out_->second);
             out_->first << "["
