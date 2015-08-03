@@ -17,7 +17,7 @@ Syslog::Syslog(const Priority& priority, const std::string &header) {
 }
 
 int Syslog::sync() {
-    if (!_buffer.empty()) {
+    if (!_buffer.empty() && (_priority <= GLOBAL_PRIORITY)) {
         syslog(_priority, "%s%s", _header.c_str(), _buffer.c_str());
     }
     _buffer.erase();
@@ -44,7 +44,7 @@ File::File(const Priority &priority, const std::string &header, std::shared_ptr<
 }
 
 int File::sync() {
-    if (!_buffer.empty()) {
+    if (!_buffer.empty() && (_priority <= GLOBAL_PRIORITY)) {
         std::unique_lock<std::mutex> l(_out->second);
         _out->first << "["
             << std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count()
