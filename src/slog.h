@@ -13,8 +13,6 @@ namespace slog{
 
 typedef std::basic_streambuf<char, std::char_traits<char>> Char_Stream;
 
-void Initialize_Logging(const std::string& ident, const int& facility);
-
 enum Priority {
     kLogEmerg   = LOG_EMERG,   // system is unusable
     kLogAlert   = LOG_ALERT,   // action must be taken immediately
@@ -25,6 +23,8 @@ enum Priority {
     kLogInfo    = LOG_INFO,    // informational message
     kLogDebug   = LOG_DEBUG    // debug-level message
 };
+
+Priority GLOBAL_PRIORITY;
 
 class Syslog : public Char_Stream {
     private:
@@ -37,8 +37,8 @@ class Syslog : public Char_Stream {
         std::string _header;
 
     public:
-        explicit Syslog(const Priority& priority, const std::string &header);
-        explicit Syslog(const Priority& priority);
+        explicit Syslog(const Priority& priority, const std::string &header, const std::string& ident, const int& facility);
+        explicit Syslog(const Priority& priority, const std::string& ident, const int& facility);
 };
 
 class File : public Char_Stream {

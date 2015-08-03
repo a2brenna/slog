@@ -1,17 +1,23 @@
 #include "slog.h"
 
+bool syslog_initialized = false;
+
 namespace slog{
 
-void Initialize_Logging(const std::string& ident, const int& facility){
-    openlog(ident.c_str(), LOG_PID, facility);
-}
-
-Syslog::Syslog(const Priority& priority) {
+Syslog::Syslog(const Priority& priority, const std::string &ident, const int &facility) {
+    if(!syslog_initialized){
+        openlog(ident.c_str(), LOG_PID, facility);
+        syslog_initialized = true;
+    }
     _priority = priority;
     _header = "";
 }
 
-Syslog::Syslog(const Priority& priority, const std::string &header) {
+Syslog::Syslog(const Priority& priority, const std::string &header, const std::string &ident, const int &facility) {
+    if(!syslog_initialized){
+        openlog(ident.c_str(), LOG_PID, facility);
+        syslog_initialized = true;
+    }
     _priority = priority;
     _header = header;
 }
