@@ -33,12 +33,12 @@ int Syslog::overflow(int c) {
     return c;
 }
 
-File::File(std::shared_ptr<std::pair<std::ofstream, std::mutex>> out){
+File::File(const Priority &priority, std::shared_ptr<std::pair<std::ofstream, std::mutex>> out) : _priority(priority){
     _out = out;
     _header = "";
 }
 
-File::File(std::shared_ptr<std::pair<std::ofstream, std::mutex>> out, const std::string &header){
+File::File(const Priority &priority, const std::string &header, std::shared_ptr<std::pair<std::ofstream, std::mutex>> out) : _priority(priority){
     _out = out;
     _header = header;
 }

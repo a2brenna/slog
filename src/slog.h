@@ -29,7 +29,7 @@ enum Priority {
 class Syslog : public Char_Stream {
     private:
         std::string _buffer;
-        int _priority;
+        Priority _priority;
 
     protected:
         int sync();
@@ -45,6 +45,7 @@ class File : public Char_Stream {
     private:
         std::string _buffer;
         std::shared_ptr<std::pair<std::ofstream, std::mutex>> _out;
+        Priority _priority;
 
     protected:
         int sync();
@@ -52,8 +53,8 @@ class File : public Char_Stream {
         std::string _header;
 
     public:
-        explicit File( std::shared_ptr<std::pair<std::ofstream, std::mutex>> out, const std::string &header);
-        explicit File( std::shared_ptr<std::pair<std::ofstream, std::mutex>> out);
+        explicit File( const Priority &priority, const std::string &header, std::shared_ptr<std::pair<std::ofstream, std::mutex>> out);
+        explicit File( const Priority &priority, std::shared_ptr<std::pair<std::ofstream, std::mutex>> out);
 };
 
 class Log : public std::ostringstream {
