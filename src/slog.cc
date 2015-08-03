@@ -17,7 +17,7 @@ Syslog::Syslog(const Priority& priority, const std::string &header) {
 }
 
 int Syslog::sync() {
-    if (_buffer.length()) {
+    if (!_buffer.empty()) {
         syslog(_priority, "%s%s", _header.c_str(), _buffer.c_str());
         _buffer.erase();
     }
@@ -44,7 +44,7 @@ File::File(std::shared_ptr<std::pair<std::ofstream, std::mutex>> out, const std:
 }
 
 int File::sync() {
-    if (_buffer.length()) {
+    if (!_buffer.empty()) {
         {
             std::unique_lock<std::mutex> l(_out->second);
             _out->first << "["
