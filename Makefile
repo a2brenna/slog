@@ -16,20 +16,28 @@ install: all headers_install
 uninstall:
 	rm ${DESTDIR}/${PREFIX}/lib/libslog.a
 	rm ${DESTDIR}/${PREFIX}/lib/libslog.so
-	rm ${DESTDIR}/${PREFIX}/include/slog.h
+	rm -r ${DESTDIR}/${PREFIX}/include/slog/
 
-headers_install: src/slog.h
-	mkdir -p ${DESTDIR}/${PREFIX}/include
-	cp src/slog.h ${DESTDIR}/${PREFIX}/include/slog.h
+headers_install: src/slog.h src/syslog.h src/file.h
+	mkdir -p ${DESTDIR}/${PREFIX}/include/slog/
+	cp src/slog.h ${DESTDIR}/${PREFIX}/include/slog/slog.h
+	cp src/slog.h ${DESTDIR}/${PREFIX}/include/slog/file.h
+	cp src/slog.h ${DESTDIR}/${PREFIX}/include/slog/syslog.h
 
-libslog.so: slog.o
-	${CXX} ${CXXFLAGS} -shared -Wl,-soname,libslog.so -o libslog.so slog.o
+libslog.so: slog.o syslog.o file.o
+	${CXX} ${CXXFLAGS} -shared -Wl,-soname,libslog.so -o libslog.so slog.o syslog.o file.o
 
-libslog.a: slog.o
-	ar rcs libslog.a slog.o
+libslog.a: slog.o syslog.o file.o
+	ar rcs libslog.a slog.o syslog.o file.o
 
 slog.o: src/slog.cc
 	${CXX} ${CXXFLAGS} -c src/slog.cc -o slog.o
+
+syslog.o: src/syslog.cc
+	${CXX} ${CXXFLAGS} -c src/syslog.cc -o syslog.o
+
+file.o: src/file.cc
+	${CXX} ${CXXFLAGS} -c src/file.cc -o file.o
 
 clean:
 	rm -f *.o
