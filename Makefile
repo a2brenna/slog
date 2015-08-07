@@ -21,8 +21,8 @@ uninstall:
 headers_install: src/slog.h src/syslog.h src/file.h
 	mkdir -p ${DESTDIR}/${PREFIX}/include/slog/
 	cp src/slog.h ${DESTDIR}/${PREFIX}/include/slog/slog.h
-	cp src/slog.h ${DESTDIR}/${PREFIX}/include/slog/file.h
-	cp src/slog.h ${DESTDIR}/${PREFIX}/include/slog/syslog.h
+	cp src/file.h ${DESTDIR}/${PREFIX}/include/slog/file.h
+	cp src/syslog.h ${DESTDIR}/${PREFIX}/include/slog/syslog.h
 
 libslog.so: slog.o syslog.o file.o
 	${CXX} ${CXXFLAGS} -shared -Wl,-soname,libslog.so -o libslog.so slog.o syslog.o file.o
