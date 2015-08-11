@@ -7,9 +7,7 @@
 #include <mutex>
 #include <syslog.h>
 
-#include <iostream>
-
-//The following is mostly stolen from http://stackoverflow.com/a/4457138
+//SEE: http://stackoverflow.com/a/4457138
 
 namespace slog{
 
