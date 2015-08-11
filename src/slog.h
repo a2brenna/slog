@@ -26,6 +26,8 @@ enum Priority {
 
 extern Priority GLOBAL_PRIORITY;
 
+class Backend_Uninitialized {};
+
 class Log_Sink{
 
     public:
