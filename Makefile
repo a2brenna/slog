@@ -12,6 +12,8 @@ install: all headers_install
 	mkdir -p ${DESTDIR}/${PREFIX}/lib
 	cp libslog.a ${DESTDIR}/${PREFIX}/lib
 	cp libslog.so ${DESTDIR}/${PREFIX}/lib
+	chmod -R 544 ${DESTDIR}/${PREFIX}/lib/libslog.a
+	chmod -R 544 ${DESTDIR}/${PREFIX}/lib/libslog.so
 
 uninstall:
 	rm ${DESTDIR}/${PREFIX}/lib/libslog.a
@@ -23,6 +25,7 @@ headers_install: src/slog.h src/syslog.h src/file.h
 	cp src/slog.h ${DESTDIR}/${PREFIX}/include/slog/slog.h
 	cp src/file.h ${DESTDIR}/${PREFIX}/include/slog/file.h
 	cp src/syslog.h ${DESTDIR}/${PREFIX}/include/slog/syslog.h
+	chmod -R 544 ${DESTDIR}/${PREFIX}/include/slog/
 
 libslog.so: slog.o syslog.o file.o
 	${CXX} ${CXXFLAGS} -shared -Wl,-soname,libslog.so -o libslog.so slog.o syslog.o file.o
