@@ -4,7 +4,7 @@ namespace slog{
 
 Priority GLOBAL_PRIORITY = kLogCrit;
 
-int Log_Buffer::sync(){
+int Log_Buffer::_sync(){
     if (!_buffer.empty() && (_priority <= GLOBAL_PRIORITY)) {
         _sink->write(_buffer);
     }
@@ -12,11 +12,17 @@ int Log_Buffer::sync(){
     return 0;
 }
 
+int Log_Buffer::sync(){
+    std::lock_guard<std::mutex> l(_lock);
+    return _sync();
+}
+
 int Log_Buffer::overflow(int c){
+    std::lock_guard<std::mutex> l(_lock);
     if (c != EOF) {
         _buffer += static_cast<char>(c);
     } else {
-        sync();
+        _sync();
     }
     return c;
 }

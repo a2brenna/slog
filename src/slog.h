@@ -38,13 +38,14 @@ class Log_Sink{
 class Log_Buffer : public Char_Stream {
 
     private:
+        std::mutex _lock;
         std::string _buffer;
         std::shared_ptr<Log_Sink> _sink;
         const Priority _priority;
         const std::string _header;
+        int _sync();
 
     protected:
-
         int sync();
         int overflow(int c);
 
