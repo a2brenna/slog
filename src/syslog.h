@@ -9,17 +9,7 @@ namespace slog{
 
 class Bad_Facility {};
 
-void initialize_syslog(const std::string &ident, const int &facility){
-    //TODO: check facility
-    if(ident.empty()){
-        openlog(nullptr, LOG_PID, facility);
-    }
-    else{
-        openlog(ident.c_str(), LOG_PID, facility);
-    }
-
-    _syslog_initialized = true;
-}
+void initialize_syslog(const std::string &ident, const int &facility);
 
 class Syslog : public Log_Sink {
 
@@ -28,13 +18,7 @@ class Syslog : public Log_Sink {
 
     public:
         void write(const std::string &msg);
-        Syslog(const Priority &priority):
-            _priority(priority)
-        {
-            if(!_syslog_initialized){
-                throw Backend_Uninitialized();
-            }
-        }
+        Syslog(const Priority &priority);
 
 };
 

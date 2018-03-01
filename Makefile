@@ -3,7 +3,7 @@ LIBRARY_DIR=$(shell echo ~)/local/lib
 DESDTIR=/
 PREFIX=/usr
 
-CXX=clang++
+CXX=g++
 CXXFLAGS=-L${LIBRARY_DIR} -I${INCLUDE_DIR} -O2 -g -std=c++11 -fPIC -Wall -Wextra
 
 all: libslog.so libslog.a src/slog.h
